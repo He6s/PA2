@@ -8,15 +8,15 @@
 /*
 *  Adds the parameter object to the back of the Queue.
 *
-*  NOTE: This fuction should have O(1) behavior over n operations!
+*  NOTE: This function should have O(1) behavior over n operations!
 *
 *  PARAM: item -  object to be added to the Queue.
 */
 template <class T>
 void Queue<T>::Enqueue(T const& item)
 {
-  // complete your implementation below
-  
+    // complete your implementation below
+    stack_1.Add(item);
 }
 
 /*
@@ -31,10 +31,12 @@ void Queue<T>::Enqueue(T const& item)
 template <class T>
 T Queue<T>::Dequeue()
 {
-  // complete your implementation below
-  
-  T item;      // REPLACE THESE LINES
-  return item; // REPLACE THESE LINES
+    if (stack_2.IsEmpty()) {
+        while (!stack_1.IsEmpty()) {
+            stack_2.Add(stack_1.Remove());
+        }
+    }
+    return stack_2.Remove();
 }
 
 /*
@@ -45,10 +47,10 @@ T Queue<T>::Dequeue()
 template <class T>
 void Queue<T>::Add(const T& item)
 {
-  // complete your implementation below
-  // Hint: this function should call a Queue
-  //  function to add the element to the Queue.
-  
+    // complete your implementation below
+    // Hint: this function should call a Queue
+    //  function to add the element to the Queue.
+    Enqueue(item);
 }
 
 /*
@@ -59,13 +61,12 @@ void Queue<T>::Add(const T& item)
 template <class T>
 T Queue<T>::Remove()
 {
-  // complete your implementation below
-  // Hint: this function should call a Queue
-  // function to remove an element from the Queue and return it. You will
-  // need to replace the following line.
-  
-  T item;      // REPLACE THESE LINES
-  return item; // REPLACE THESE LINES
+    // complete your implementation below
+    // Hint: this function should call a Queue
+    // function to remove an element from the Queue and return it. You will
+    // need to replace the following line.
+
+    return Dequeue();
 }
 
 /*
@@ -82,10 +83,11 @@ T Queue<T>::Remove()
 template <class T>
 T Queue<T>::Peek()
 {
-  // complete your implementation below
-  
-  T item;      // REPLACE THESE LINES
-  return item; // REPLACE THESE LINES
+    // complete your implementation below
+
+    T item = Dequeue();
+    stack_2.Add(item);
+    return item;
 }
 
 /*
@@ -99,7 +101,6 @@ T Queue<T>::Peek()
 template <class T>
 bool Queue<T>::IsEmpty() const
 {
-  // complete your implementation below
-  
-  return true; // REPLACE THIS STUB
+    // complete your implementation below
+    return stack_1.IsEmpty() && stack_2.IsEmpty();
 }

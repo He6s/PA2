@@ -14,8 +14,10 @@
 template <class T>
 Stack<T>::Stack()
 {
-  // complete your implementation below
-  
+    // complete your implementation below
+    max_items = DEFAULTCAPACITY;
+    num_items = 0;
+    items = new T[max_items];
 }
 
 /*
@@ -24,8 +26,7 @@ Stack<T>::Stack()
 template <class T>
 Stack<T>::~Stack()
 {
-  // complete your implementation below
-  
+    delete [] items;
 }
 
 /*
@@ -40,8 +41,12 @@ Stack<T>::~Stack()
 */
 template <class T>
 void Stack<T>::Push(const T& item) {
-  // complete your implementation below
-  
+    // complete your implementation below
+    if (Size() == max_items) {
+        Resize(EXPANSIONFACTOR);
+    }
+    items[num_items] = item;
+    num_items++;
 };
 
 /*
@@ -56,10 +61,14 @@ void Stack<T>::Push(const T& item) {
 */
 template <class T>
 T Stack<T>::Pop() {
-  // complete your implementation below
-  
-  T item;      // REPLACE THESE LINES
-  return item; // REPLACE THESE LINES
+    // complete your implementation below
+    if (Size != 0 && Size() - 1 <= max_items / SHRINKRATE) {
+        Resize(1 / EXPANSIONFACTOR);
+    }
+    int x = items[num_items - 1];
+    items[num_items - 1] = NULL;
+    num_items--;
+    return x;
 };
 
 /*
@@ -69,10 +78,10 @@ T Stack<T>::Pop() {
 template <class T>
 void Stack<T>::Add(const T& item)
 {
-  // complete your implementation below
-  // Hint: this should call another Stack function
-  //   to add the element to the Stack.
-  
+    // complete your implementation below
+    // Hint: this should call another Stack function
+    //   to add the element to the Stack.
+    Push(item);
 }
 
 /*
@@ -84,12 +93,10 @@ void Stack<T>::Add(const T& item)
 template <class T>
 T Stack<T>::Remove()
 {
-  // complete your implementation below
-  // Hint: this should call another Stack function
-  //   to remove an element from the Stack and return it.
-  
-  T item;      // REPLACE THESE LINES
-  return item; // REPLACE THESE LINES
+    // complete your implementation below
+    // Hint: this should call another Stack function
+    //   to remove an element from the Stack and return it.
+    return Pop();
 }
 
 /*
@@ -102,10 +109,8 @@ T Stack<T>::Remove()
 */
 template <class T>
 T Stack<T>::Peek() {
-  // complete your implementation below
-  
-  T item;      // REPLACE THESE LINES
-  return item; // REPLACE THESE LINES
+    // complete your implementation below
+    return items[num_items - 1];
 };
 
 /*
@@ -115,9 +120,8 @@ T Stack<T>::Peek() {
 */
 template <class T>
 bool Stack<T>::IsEmpty() const {
-  // complete your implementation below
-  
-  return true; // REPLACE THIS STUB
+    // complete your implementation below
+    return Size() == 0;
 };
 
 /*
@@ -130,9 +134,8 @@ bool Stack<T>::IsEmpty() const {
 */
 template <class T>
 size_t Stack<T>::Capacity() const {
-  // complete your implementation below
-  
-  return 0; // REPLACE THIS STUB
+    // complete your implementation below
+    return max_items;
 };
 
 /*
@@ -141,9 +144,8 @@ size_t Stack<T>::Capacity() const {
 */
 template <class T>
 size_t Stack<T>::Size() const {
-  // complete your implementation below
-  
-  return 0; // REPLACE THIS STUB
+    // complete your implementation below
+    return num_items;
 };
 
 /*
@@ -155,6 +157,15 @@ size_t Stack<T>::Size() const {
 */
 template <class T>
 void Stack<T>::Resize(size_t n) {
-  // complete your implementation below
-  
+    // complete your implementation below
+    T* old = items;
+    max_items *= n;
+    items = new T[max_items];
+    for (int i = 0; i < Size(); i++) {
+        items[i] = old[i];
+    }
+    for (int i = 0; i < Size(); i++) {
+        old[i] = NULL;
+    }
+    delete [] old;
 };
