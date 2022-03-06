@@ -42,8 +42,8 @@ Stack<T>::~Stack()
 template <class T>
 void Stack<T>::Push(const T& item) {
     // complete your implementation below
-    if (Size() == max_items) {
-        Resize(EXPANSIONFACTOR);
+    if (num_items == max_items) {
+        Resize(EXPANSIONFACTOR * max_items);
     }
     items[num_items] = item;
     num_items++;
@@ -62,12 +62,14 @@ void Stack<T>::Push(const T& item) {
 template <class T>
 T Stack<T>::Pop() {
     // complete your implementation below
-    if (Size != 0 && Size() - 1 <= max_items / SHRINKRATE) {
-        Resize(1 / EXPANSIONFACTOR);
-    }
-    int x = items[num_items - 1];
+    T x = items[num_items - 1];
     items[num_items - 1] = NULL;
     num_items--;
+    if (num_items < max_items / SHRINKRATE) {
+        if (max_items > DEFAULTCAPACITY) {
+            Resize(max_items / EXPANSIONFACTOR);
+        }
+    }
     return x;
 };
 
@@ -104,7 +106,7 @@ T Stack<T>::Remove()
 *  Unlike Pop(), this operation does not alter the Stack itself.
 *  It should look at the end of the array. You may assume this function
 *  is only called when the Stack is not empty.
-* 
+*
 *  RETURN: the element at the top of the Stack.
 */
 template <class T>
@@ -121,7 +123,7 @@ T Stack<T>::Peek() {
 template <class T>
 bool Stack<T>::IsEmpty() const {
     // complete your implementation below
-    return Size() == 0;
+    return num_items == 0;
 };
 
 /*
@@ -129,7 +131,7 @@ bool Stack<T>::IsEmpty() const {
 *
 *  Note: This is an implementation detail we would normally hide.
 *  We include it here for testing purposes.
-* 
+*
 *  RETURN: maximum number of items the stack can hold (int)
 */
 template <class T>
@@ -159,13 +161,10 @@ template <class T>
 void Stack<T>::Resize(size_t n) {
     // complete your implementation below
     T* old = items;
-    max_items *= n;
-    items = new T[max_items];
+    items = new T[n];
+    max_items = n;
     for (int i = 0; i < Size(); i++) {
         items[i] = old[i];
-    }
-    for (int i = 0; i < Size(); i++) {
-        old[i] = NULL;
     }
     delete [] old;
 };

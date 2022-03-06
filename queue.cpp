@@ -84,10 +84,12 @@ template <class T>
 T Queue<T>::Peek()
 {
     // complete your implementation below
-
-    T item = Dequeue();
-    stack_2.Add(item);
-    return item;
+    if (stack_2.IsEmpty()) {
+        while (!stack_1.IsEmpty()) {
+            stack_2.Add(stack_1.Remove());
+        }
+    }
+    return stack_2.Peek();
 }
 
 /*
