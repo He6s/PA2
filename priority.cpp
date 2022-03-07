@@ -24,8 +24,8 @@ using namespace std;
 *  Initializes refcolor to the default color according to the HSLAPixel implementation.
 */
 PriorityNeighbours::PriorityNeighbours() {
-  // complete your implementation below
-  
+    // complete your implementation below
+    refcolor = HSLAPixel();
 }
 
 /*
@@ -33,8 +33,8 @@ PriorityNeighbours::PriorityNeighbours() {
 *  Initializes refcolor to the supplied value.
 */
 PriorityNeighbours::PriorityNeighbours(HSLAPixel ref) {
-  // complete your implementation below
-  
+    // complete your implementation below
+    refcolor = ref;
 }
 
 /*
@@ -43,8 +43,25 @@ PriorityNeighbours::PriorityNeighbours(HSLAPixel ref) {
 *  POST:  the collection contains p, along with all previously existing items.
 */
 void PriorityNeighbours::Insert(PixelPoint p) {
-  // complete your implementation below
-  
+    // complete your implementation below
+    if (IsEmpty()) {
+        points.push_back(p);
+        return;
+    }
+    int i = 0;
+    while (true) {
+        if (p.y > points.at(i).y) {
+            i++;
+            continue;
+        }
+        if (p.x > points.at(i).x) {
+            i++;
+            continue;
+        }
+        auto position = points.begin() + i;
+        points.insert(position, p);
+        return;
+    }
 }
 
 /*
@@ -69,9 +86,25 @@ void PriorityNeighbours::Insert(PixelPoint p) {
 *  priority order and/or accessing the priority element in this specific application!
 */
 PixelPoint PriorityNeighbours::Remove() {
-  // complete your implementation below
-  
-  return PixelPoint(); // REPLACE THIS STUB
+    // complete your implementation below
+    if (IsEmpty()) {
+        return;
+    }
+    int i = 0;
+    PixelPoint p;
+    double dist;
+    p = points.at(i);
+    dist = abs(dist(p.color) - dist(ref));
+    i++;
+    while (points.at(i) != NULL) {
+        if (abs(dist(points.at(i).color) - dist(ref)) < dist) {
+            p = points.at(i);
+            dist = abs(dist(points.at(i).color) - dist(ref));
+        }
+        i++;
+    }
+    points.erase(points.begin() + i - 1);
+    return p;
 }
 
 /*
@@ -80,18 +113,16 @@ PixelPoint PriorityNeighbours::Remove() {
 *          false, otherwise
 */
 bool PriorityNeighbours::IsEmpty() const {
-  // complete your implementation below
-  
-  return true; // REPLACE THIS STUB
+    // complete your implementation below
+    return points.empty();
 }
 
 /*
 *  Returns the value of the reference color
 */
 HSLAPixel PriorityNeighbours::GetReferenceColor() const {
-  // complete your implementation below
-  
-  return HSLAPixel(); // REPLACE THIS STUB
+    // complete your implementation below
+    return refcolor;
 }
 
 /*
@@ -99,6 +130,6 @@ HSLAPixel PriorityNeighbours::GetReferenceColor() const {
 *  POST: refcolor is set to the supplied value
 */
 void PriorityNeighbours::SetReferenceColor(HSLAPixel ref) {
-  // complete your implementation below
-  
+    // complete your implementation below
+    refcolor = ref;
 }
