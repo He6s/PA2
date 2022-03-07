@@ -48,20 +48,22 @@ void PriorityNeighbours::Insert(PixelPoint p) {
         points.push_back(p);
         return;
     }
-    int i = 0;
-    while (true) {
+    unsigned long i = 0;
+    while (i < points.size()) {
         if (p.y > points.at(i).y) {
             i++;
             continue;
+        } else {
+            if (p.y == points.at(i).y && p.x > points.at(i).x) {
+                i++;
+                continue;
+            }
+            break;
         }
-        if (p.x > points.at(i).x) {
-            i++;
-            continue;
-        }
-        auto position = points.begin() + i;
-        points.insert(position, p);
-        return;
     }
+    auto position = points.begin() + i;
+    points.insert(position, p);
+    return;
 }
 
 /*
@@ -88,22 +90,25 @@ void PriorityNeighbours::Insert(PixelPoint p) {
 PixelPoint PriorityNeighbours::Remove() {
     // complete your implementation below
     if (IsEmpty()) {
-        return;
+        return NULL;
     }
-    int i = 0;
+    unsigned long i = 0;
+    int x = 0;
     PixelPoint p;
-    double dist;
+    double diff;
     p = points.at(i);
-    dist = abs(dist(p.color) - dist(ref));
+    diff = refcolor.dist(p.color);
     i++;
-    while (points.at(i) != NULL) {
-        if (abs(dist(points.at(i).color) - dist(ref)) < dist) {
+    while (i < points.size()) {
+        if (refcolor.dist(points.at(i).color) < diff) {
             p = points.at(i);
-            dist = abs(dist(points.at(i).color) - dist(ref));
+            diff = refcolor.dist(points.at(i).color);
+            x = i;
         }
         i++;
     }
-    points.erase(points.begin() + i - 1);
+    auto position = points.begin() + x;
+    points.erase(position);
     return p;
 }
 

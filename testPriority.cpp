@@ -29,8 +29,8 @@ TEST_CASE("PriorityNeighbours::insertion_removal_isempty", "[weight=1][part=prio
   // declare a few PixelPoint objects
   // feel free to add to/change these to test your special conditions!
   PixelPoint pp1(3, 4, HSLAPixel(175, 0.5, 0.5)); // priority #1, short distance from reference point
-  PixelPoint pp2(30, 45, HSLAPixel(120, 0.25, 0.75)); // priority #2, longer distance from reference point
-  PixelPoint pp3(35, 45, HSLAPixel(120, 0.25, 0.75)); // priority #3, same distance as pp2 and same y-coordinate
+  PixelPoint pp2(35, 45, HSLAPixel(120, 0.25, 0.75)); // priority #2, longer distance from reference point
+  PixelPoint pp3(30, 45, HSLAPixel(120, 0.25, 0.75)); // priority #3, same distance as pp2 and same y-coordinate
   PixelPoint pp4(16, 12, HSLAPixel(30, 0.9, 0.1)); // priority #4, long distance from reference point
 
   // get the expected priority order
