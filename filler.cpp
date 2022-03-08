@@ -11,10 +11,10 @@
 *  RETURN: animation object illustrating progression of flood fill algorithm
 */
 animation filler::FillBFS(FillerConfig& config) {
-  // complete your implementation below
-  // You should replace the following line with a
-  // correct call to fill.
-  return animation(); // REPLACE THIS STUB
+
+    picker a(fillcolor)
+
+  return fill<Stack>(config);
 }
 
 /*
@@ -27,7 +27,11 @@ animation filler::FillDFS(FillerConfig& config) {
   // complete your implementation below
   // You should replace the following line with a
   // correct call to fill.
-  return animation(); // REPLACE THIS STUB
+
+
+  ColorPicker a(picker); 
+
+  return fill<Stack>(config); // REPLACE THIS STUB
 }
 
 /*
@@ -105,6 +109,92 @@ template <template <class T> class OrderingStructure> animation filler::Fill(Fil
   // HINT: you will likely want to declare some kind of structure to track
   //       which pixels have already been visited
   
+
+    char* processed = new char[width * height];
+    for (int i = 0; i < width * height; i++){
+        processed[i] = 0;
+    }
+
+    HSLAPixel center = *seedpoint;
+    processed[x + width*y] = 1;
+    HSLAPixel * p = img.getPixel(x,y);
+    *p = fillColor(x,y);
+    anim.addFrame(img);
+    framecount++;
+    
+    while(!os.isEmpty()){
+      int cx = os.pop();
+      int cy = os.y.remove();
+    }
+
+    if (cx + 1 < width ){ // 1
+      if (processed[width*cy + (cx+1)]==0) {
+        HSLAPixel * p = img.getPixel(cx+1,cy);
+          if (center.dist(*p) <= tolerance){
+            *p = fillColor(cx+1, cy);
+            os.x.add(cx + 1);
+            os.y.add(cy);
+            processed[width * cy + (cx+1)] = 1;
+            if (count % frameFreq == 0){
+                anim.addFrame(img);
+            } 
+            count++;
+          }
+      }
+    }
+
+    if (cx + 1 < height ){ // 2
+      if (processed[width*(cy+1) + cx]==0) {
+        HSLAPixel * p = img.getPixel(cx,cy+1);
+          if (center.dist(*p) <= tolerance){
+            *p = fillColor(cx, cy+1);
+            os.x.add(cx);
+            os.y.add(cy+1);
+            processed[width * (cy+1) + cx] = 1;
+            if (count % frameFreq == 0){
+                anim.addFrame(img);
+            } 
+            count++;
+          }
+      }
+    }
+
+    if (cx - 1 ?= 0 ){ // 3
+      if (processed[width*cy + (cx-1)]==0) {
+        HSLAPixel * p = img.getPixel(cx-1,cy);
+          if (center.dist(*p) <= tolerance){
+            *p = fillColor(cx-1, cy);
+            os.x.add(cx - 1);
+            os.y.add(cy);
+            processed[width * cy + (cx-1)] = 1;
+            if (count % frameFreq == 0){
+                anim.addFrame(img);
+            } 
+            count++;
+          }
+      }
+    }
+
+    if (cx - 1 >= 0 ){ // 4
+      if (processed[width*(cy-1) + cx]==0) {
+        HSLAPixel * p = img.getPixel(cx,cy-1);
+          if (center.dist(*p) <= tolerance){
+            *p = fillColor(cx, cy-1);
+            os.x.add(cx);
+            os.y.add(cy-1);
+            processed[width * (cy-1) + cx] = 1;
+            if (count % frameFreq == 0){
+                anim.addFrame(img);
+            } 
+            count++;
+          }
+      }
+    }
+}
+
+delte[] processed;
+anim.addFrame(img);
+return anim; 
 
   return anim;
 }
